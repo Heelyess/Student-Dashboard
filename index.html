@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Physique</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── LIGHT ── */
+  :root {
+    --bg:#f5f5f7; --surface:#fff; --surface2:#fafafa;
+    --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.14);
+    --text:#1d1d1f; --text-2:#6e6e73; --text-3:#aeaeb2;
+    --blue:#0071e3;
+    --red:#ff3b30;    --red-bg:#fff0ef;
+    --orange:#ff9500; --orange-bg:#fff4e5;
+    --yellow:#b8860b; --yellow-bg:#fffbe5;
+    --green:#34c759;  --green-bg:#edfaf1; --green-text:#1a7a38;
+    --topbar:rgba(245,245,247,0.85);
+    --pill-active:#fff;
+    --ring-track:#f0f0f5;
+    --shadow:0 2px 20px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.04);
+    --shadow-h:0 4px 30px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.06);
+    --radius:16px; --radius-sm:10px;
+  }
+  /* ── DARK ── */
+  @media(prefers-color-scheme:dark){:root{
+    --bg:#1c1c1e; --surface:#2c2c2e; --surface2:#3a3a3c;
+    --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.15);
+    --text:#f5f5f7; --text-2:#98989d; --text-3:#636366;
+    --red-bg:rgba(255,59,48,0.15);
+    --orange-bg:rgba(255,149,0,0.15);
+    --yellow:#d4a017; --yellow-bg:rgba(255,204,0,0.12);
+    --green-bg:rgba(52,199,89,0.15); --green-text:#30d158;
+    --topbar:rgba(28,28,30,0.85);
+    --pill-active:#636366;
+    --ring-track:#3a3a3c;
+    --shadow:0 2px 20px rgba(0,0,0,0.35),0 1px 4px rgba(0,0,0,0.25);
+    --shadow-h:0 4px 30px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.35);
+  }}
+  /* ── MANUAL OVERRIDE ── */
+  html[data-theme="light"]{
+    --bg:#f5f5f7; --surface:#fff; --surface2:#fafafa;
+    --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.14);
+    --text:#1d1d1f; --text-2:#6e6e73; --text-3:#aeaeb2;
+    --red-bg:#fff0ef; --orange-bg:#fff4e5;
+    --yellow:#b8860b; --yellow-bg:#fffbe5;
+    --green-bg:#edfaf1; --green-text:#1a7a38;
+    --topbar:rgba(245,245,247,0.85); --pill-active:#fff;
+    --ring-track:#f0f0f5;
+    --shadow:0 2px 20px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.04);
+    --shadow-h:0 4px 30px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.06);
+  }
+  html[data-theme="dark"]{
+    --bg:#1c1c1e; --surface:#2c2c2e; --surface2:#3a3a3c;
+    --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.15);
+    --text:#f5f5f7; --text-2:#98989d; --text-3:#636366;
+    --red-bg:rgba(255,59,48,0.15); --orange-bg:rgba(255,149,0,0.15);
+    --yellow:#d4a017; --yellow-bg:rgba(255,204,0,0.12);
+    --green-bg:rgba(52,199,89,0.15); --green-text:#30d158;
+    --topbar:rgba(28,28,30,0.85); --pill-active:#636366;
+    --ring-track:#3a3a3c;
+    --shadow:0 2px 20px rgba(0,0,0,0.35),0 1px 4px rgba(0,0,0,0.25);
+    --shadow-h:0 4px 30px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.35);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  html{transition:color-scheme 0.3s}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:14px;min-height:100vh;transition:background 0.25s,color 0.25s}
+
+  /* TOPBAR */
+  .topbar{position:sticky;top:0;z-index:100;background:var(--topbar);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;transition:background 0.25s}
+  .topbar-title{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+  .topbar-title .sub{color:var(--text-2);font-weight:400}
+  .topbar-right{display:flex;align-items:center;gap:8px}
+
+  /* SEMESTER PILLS */
+  .sem-pills{display:flex;background:rgba(128,128,128,0.12);border-radius:8px;padding:3px;gap:2px}
+  .sem-pills button{background:none;border:none;font-family:inherit;font-size:12px;font-weight:500;color:var(--text-2);padding:4px 14px;border-radius:6px;cursor:pointer;transition:all 0.2s}
+  .sem-pills button.active{background:var(--pill-active);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.12)}
+
+  /* THEME BUTTON */
+  .theme-btn{background:none;border:none;cursor:pointer;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-2);transition:background 0.15s,color 0.15s}
+  .theme-btn:hover{background:var(--surface2);color:var(--text)}
+  .theme-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* CONTAINER */
+  .container{max-width:1160px;margin:0 auto;padding:2.5rem}
+  .page-header{margin-bottom:2rem}
+  .page-header h1{font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.1;color:var(--text)}
+  .page-header p{font-size:13px;color:var(--text-2);margin-top:4px}
+
+  /* STATS */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:2rem;animation:fadeUp 0.35s ease both}
+  .stat-card{background:var(--surface);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);transition:box-shadow 0.2s,background 0.25s}
+  .stat-card:hover{box-shadow:var(--shadow-h)}
+  .stat-label{font-size:11px;font-weight:500;color:var(--text-2);letter-spacing:0.02em;text-transform:uppercase;margin-bottom:10px}
+  .stat-value{font-size:28px;font-weight:600;letter-spacing:-0.03em;line-height:1;color:var(--text)}
+  .stat-sub{font-size:11px;color:var(--text-3);margin-top:4px}
+  .mini-bar{height:3px;background:var(--surface2);border-radius:99px;margin-top:12px;overflow:hidden}
+  .mini-bar-fill{height:100%;border-radius:99px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1)}
+
+  /* MAIN GRID */
+  .main-grid{display:grid;grid-template-columns:1fr 300px;gap:1.5rem;animation:fadeUp 0.35s 0.05s ease both}
+  .sec-hdr{font-size:11px;font-weight:600;color:var(--text-2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px}
+
+  /* UE LIST */
+  .ue-list{display:flex;flex-direction:column;gap:8px}
+  .ue-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow 0.2s,background 0.25s}
+  .ue-card:hover{box-shadow:var(--shadow-h)}
+  .ue-hdr{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none}
+  .ue-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .ue-info{flex:1;min-width:0}
+  .ue-name{font-size:14px;font-weight:500;letter-spacing:-0.01em;color:var(--text)}
+  .ue-meta{font-size:11px;color:var(--text-3);margin-top:2px}
+  .ue-bar-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .ue-bar{width:90px;height:4px;background:var(--surface2);border-radius:99px;overflow:hidden}
+  .ue-bar-fill{height:100%;border-radius:99px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
+  .ue-pct{font-size:12px;font-weight:500;color:var(--text-2);width:28px;text-align:right}
+  .ue-chev{font-size:10px;color:var(--text-3);transition:transform 0.2s;flex-shrink:0;margin-left:4px}
+  .ue-chev.open{transform:rotate(180deg)}
+
+  /* UE DETAIL */
+  .ue-detail{display:none;border-top:1px solid var(--border)}
+  .ue-detail.open{display:block}
+  .dsec{font-size:10px;font-weight:600;color:var(--text-3);letter-spacing:0.08em;text-transform:uppercase;padding:9px 20px 6px 44px;background:var(--surface2);border-bottom:1px solid var(--border);transition:background 0.25s}
+  .tbl-hdr{display:grid;grid-template-columns:1fr 130px 90px;gap:8px;padding:7px 20px 7px 44px;font-size:10px;font-weight:600;color:var(--text-3);letter-spacing:0.06em;text-transform:uppercase;background:var(--surface2);border-bottom:1px solid var(--border);transition:background 0.25s}
+  .item-row{display:grid;grid-template-columns:1fr 130px 90px;gap:8px;align-items:center;padding:10px 20px 10px 44px;border-bottom:1px solid var(--border);transition:background 0.15s}
+  .item-row:last-child{border-bottom:none}
+  .item-row:hover{background:var(--surface2)}
+  .item-name{font-size:13px;color:var(--text)}
+
+  /* BADGES */
+  .sbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 9px;border-radius:6px;cursor:pointer;border:none;font-family:inherit;transition:opacity 0.15s;white-space:nowrap;user-select:none}
+  .sbadge:active{opacity:0.7}
+  .sbadge.s0{background:var(--red-bg);color:var(--red)}
+  .sbadge.s1{background:var(--orange-bg);color:var(--orange)}
+  .sbadge.s2{background:var(--yellow-bg);color:var(--yellow)}
+  .sbadge.s3{background:var(--green-bg);color:var(--green-text)}
+
+  /* NOTE INPUT */
+  .note-input{background:transparent;border:none;border-bottom:1px solid transparent;color:var(--text-2);font-family:inherit;font-size:12px;padding:2px 4px;width:100%;outline:none;transition:border-color 0.15s}
+  .note-input:focus{border-bottom-color:var(--blue)}
+  .note-input::placeholder{color:var(--text-3)}
+
+  /* SUB SECTIONS (annales / points faibles) */
+  .sub-section{border-top:1px solid var(--border)}
+  .sub-inner{padding:10px 20px 12px 44px}
+  .row4{display:grid;grid-template-columns:60px 90px 1fr 24px;gap:8px;align-items:center;font-size:12px;color:var(--text)}
+  .row3{display:grid;grid-template-columns:1fr 90px 24px;gap:8px;align-items:center;font-size:12px;color:var(--text)}
+  .sub-hdr{font-size:10px;font-weight:600;color:var(--text-3);letter-spacing:0.06em;text-transform:uppercase;padding:4px 0 6px;border-bottom:1px solid var(--border);margin-bottom:4px}
+  .sub-row{padding:6px 0;border-bottom:1px solid var(--border)}
+  .sub-row:last-child{border-bottom:none}
+
+  .score-input{background:var(--surface2);border:1px solid transparent;border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;padding:3px 6px;width:100%;outline:none;text-align:center;transition:border-color 0.15s}
+  .score-input:focus{border-color:var(--blue)}
+
+  select{background:var(--surface2);border:1px solid transparent;border-radius:6px;color:var(--text-2);font-family:inherit;font-size:11px;padding:3px 5px;outline:none;cursor:pointer;transition:border-color 0.15s}
+  select:focus{border-color:var(--blue)}
+
+  .add-btn{background:none;border:1.5px dashed var(--border-strong);border-radius:var(--radius-sm);color:var(--text-3);font-family:inherit;font-size:11px;font-weight:500;padding:6px;cursor:pointer;transition:border-color 0.15s,color 0.15s;width:100%;margin-top:6px}
+  .add-btn:hover{border-color:var(--blue);color:var(--blue)}
+  .del-btn{background:none;border:none;color:var(--text-3);cursor:pointer;font-size:15px;line-height:1;padding:0 2px;transition:color 0.15s}
+  .del-btn:hover{color:var(--red)}
+  .prio-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0}
+
+  /* RIGHT PANEL */
+  .right-panel{display:flex;flex-direction:column;gap:12px}
+  .panel-card{background:var(--surface);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:background 0.25s,box-shadow 0.2s}
+  .rings-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:12px}
+  .ring-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .ring-item svg{transform:rotate(-90deg)}
+  .ring-label{font-size:11px;color:var(--text-2);font-weight:500}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+  .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-2)}
+  .legend-dot{width:7px;height:7px;border-radius:50%}
+
+  .alert-list{display:flex;flex-direction:column;gap:5px;margin-top:12px;max-height:260px;overflow-y:auto}
+  .alert-item{display:flex;align-items:center;gap:8px;font-size:12px;padding:8px 10px;border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);transition:background 0.25s}
+  .alert-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+  .alert-ue{font-size:10px;font-weight:600;color:var(--text-3);flex-shrink:0;min-width:28px}
+
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ── RESPONSIVE — iPhone ── */
+  @media(max-width:768px){
+    .container{padding:1rem}
+    .topbar{padding:0 1rem}
+    .topbar-title .sub{display:none}
+
+    /* Stats : 2 colonnes */
+    .stats-row{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+    .stat-value{font-size:22px}
+    .stat-label{font-size:10px;margin-bottom:6px}
+
+    /* Main grid : colonne unique */
+    .main-grid{grid-template-columns:1fr;gap:1rem}
+
+    /* Right panel sous les UE */
+    .right-panel{flex-direction:column}
+
+    /* Rings : 3 colonnes sur mobile */
+    .rings-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+
+    /* UE header : compacter */
+    .ue-hdr{padding:12px 14px;gap:10px}
+    .ue-name{font-size:13px}
+    .ue-bar{width:60px}
+    .ue-pct{width:24px;font-size:11px}
+
+    /* Rows : cacher la colonne notes sur mobile */
+    .tbl-hdr{grid-template-columns:1fr 110px !important;padding:6px 12px 6px 32px}
+    .tbl-hdr span:last-child{display:none}
+    .item-row{grid-template-columns:1fr 110px !important;padding:9px 12px 9px 32px}
+    .item-row > input{display:none}
+    .item-row > span:last-child{display:none}
+
+    /* Badges plus petits */
+    .sbadge{font-size:10px;padding:3px 7px}
+
+    /* Sub sections */
+    .sub-inner{padding:8px 12px 10px 32px}
+    .dsec{padding:8px 12px 5px 32px}
+
+    /* Rows sub */
+    .row4{grid-template-columns:50px 80px 1fr 20px;gap:6px}
+    .row3{grid-template-columns:1fr 70px 20px;gap:6px}
+
+    /* Page header */
+    .page-header{margin-bottom:1.25rem}
+    .page-header h1{font-size:24px}
+
+    /* Annales : cacher score sur très petit écran */
+    @media(max-width:380px){
+      .row4{grid-template-columns:50px 80px 20px}
+      .row4 .score-input{display:none}
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">
+    Physique <span class="sub">— Suivi de progression</span>
+  </div>
+  <div class="topbar-right">
+    <div class="sem-pills">
+      <button id="btn1" class="active" onclick="setSem(1)">Semestre 1</button>
+      <button id="btn2" onclick="setSem(2)">Semestre 2</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="page-header">
+    <h1 id="semTitle">Semestre 1</h1>
+    <p>Cours · TD · Annales</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Chapitres maîtrisés</div>
+      <div class="stat-value" id="sCh">0</div>
+      <div class="stat-sub" id="sChS">sur 0 chapitres</div>
+      <div class="mini-bar"><div class="mini-bar-fill" id="bCh" style="background:var(--blue);width:0%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">TD maîtrisés</div>
+      <div class="stat-value" id="sTD">0</div>
+      <div class="stat-sub" id="sTDS">sur 0 TD</div>
+      <div class="mini-bar"><div class="mini-bar-fill" id="bTD" style="background:var(--green);width:0%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Annales maîtrisées</div>
+      <div class="stat-value" id="sAnn">0</div>
+      <div class="stat-sub" id="sAnnS">sur 0 annales</div>
+      <div class="mini-bar"><div class="mini-bar-fill" id="bAnn" style="background:var(--orange);width:0%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Progression globale</div>
+      <div class="stat-value" id="sGlob">0%</div>
+      <div class="stat-sub">tous critères</div>
+      <div class="mini-bar"><div class="mini-bar-fill" id="bGlob" style="background:var(--blue);width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div>
+      <div class="panel-card" style="margin-bottom:1rem">
+        <div class="sec-hdr">Avancement par UE</div>
+        <div class="rings-grid" id="ringsGrid"></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Pas vu</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Lu / Fait</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ffcc00"></div>Compris</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Maîtrisé</div>
+        </div>
+      </div>
+      <div class="sec-hdr">Unités d'enseignement</div>
+      <div class="ue-list" id="ueList"></div>
+    </div>
+    <div class="right-panel">
+      <div class="panel-card">
+        <div class="sec-hdr">À prioriser</div>
+        <div class="alert-list" id="alertList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const COLORS = ['#0071e3','#ff3b30','#34c759','#ff9500','#af52de','#ff2d55'];
+const SL  = ['Pas vu','Fait','Compris','Maîtrisé'];   // TD / annales
+const SLC = ['Pas vu','Lu','Compris','Maîtrisé'];     // chapters
+const SI  = ['🔴','🟠','🟡','🟢'];
+const PC  = { high:'var(--red)', med:'var(--orange)', low:'var(--green)' };
+
+const DATA = {
+  1: [
+    { name:'Physique quantique 1', abbr:'PQ1', color:COLORS[0], tds:0,
+      chapters:[
+        'Chap 1 — Introduction au monde quantique',
+        'Chap 2 — Dualité onde-corpuscule pour la lumière',
+        'Chap 3 — Dualité onde-corpuscule pour la matière',
+        'Chap 4 — Barrières et puits de potentiel I',
+        'Chap 5 — Barrières et puits de potentiel II',
+        'Chap 6 — Notation de Dirac, observables et mesure',
+        'Chap 7 — Évolution, commutateur, ECOC',
+        'Chap 8 — Oscillateur harmonique quantique',
+        'Chap 9 — Systèmes à deux niveaux',
+        'Chap 10 — Spin 1/2',
+        'Chap 11 — Qubits et intrication',
+        'Chap 12 — Information et calcul quantique',
+      ]},
+    { name:'Physique des milieux continus', abbr:'PMC', color:COLORS[1], tds:0,
+      chapters:[
+        'Chap 1 — Partie liminaire',
+        'Chap 2 — Mécanique des solides déformables',
+        'Chap 3 — Phénomènes de transport',
+        'Chap 4 — Hydrodynamique',
+      ]},
+    { name:'Méthodes Mathématiques', abbr:'MM', color:COLORS[2], tds:0,
+      chapters:[
+        'Chap 1 — Fonctions holomorphes',
+        'Chap 2 — Développement en série de Fourier',
+        'Chap 3 — Transformées de Fourier 1',
+        'Chap 4 — Transformées de Fourier 2 : distribution δ de Dirac',
+        'Chap 5 — Transformation de Laplace',
+      ]},
+    { name:'Optique et Électromagnétisme', abbr:'OEM', color:COLORS[3], tds:0,
+      chapters:[
+        'Chap 1 — Ondes électromagnétiques dans le vide',
+        'Chap 2 — Optique ondulatoire et interférences lumineuses',
+        'Chap 3 — Diffraction des ondes lumineuses',
+        'Chap 4 — Émission dipolaire et diffusion',
+        'Chap 5 — Propagation dans les milieux L.H.I.',
+        'Chap 6 — Interfaces, réflexion et transmission',
+        'Chap 7 — Propagation dans les milieux anisotropes',
+      ]},
+  ],
+  2: [
+    { name:'Thermostatistique', abbr:'TS', color:COLORS[0], tds:0,
+      chapters:['Chap 1','Chap 2','Chap 3','Chap 4','Chap 5','Chap 6','Chap 7']},
+    { name:'Projet numérique', abbr:'PN', color:COLORS[1], tds:0,
+      chapters:['Chap 1','Chap 2','Chap 3','Chap 4','Chap 5','Chap 6','Chap 7']},
+    { name:'Physique théorique', abbr:'PT', color:COLORS[2], tds:0,
+      chapters:['Chap 1','Chap 2','Chap 3','Chap 4','Chap 5','Chap 6','Chap 7']},
+    { name:'Physique quantique 2', abbr:'PQ2', color:COLORS[3], tds:0,
+      chapters:['Chap 1','Chap 2','Chap 3','Chap 4','Chap 5','Chap 6','Chap 7']},
+    { name:'Anglais', abbr:'ANG', color:COLORS[4], tds:0,
+      chapters:['Chap 1','Chap 2','Chap 3','Chap 4','Chap 5','Chap 6','Chap 7']},
+  ]
+};
+
+// ─── STATE ──────────────────────────────────────────────────────────────────
+let S = 1;
+let state = JSON.parse(localStorage.getItem('physV5') || 'null') || {
+  ch:{}, td:{}, ann:{}, weak:{}, exp:{}, notes:{}
+};
+
+const WORKER_URL = 'https://physique-api.w2vj479745.workers.dev';
+let _saveTimer = null;
+
+const save = () => {
+  localStorage.setItem('physV5', JSON.stringify(state));
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async () => {
+    try {
+      await fetch(`${WORKER_URL}/api/save`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(state)
+      });
+    } catch {}
+  }, 1000);
+};
+
+async function loadFromServer() {
+  try {
+    const res = await fetch(`${WORKER_URL}/api/load`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data && Object.keys(data).length > 0) {
+      state = {ch:{},td:{},ann:{},weak:{},exp:{},notes:{},...data};
+      localStorage.setItem('physV5', JSON.stringify(state));
+    }
+  } catch {}
+}
+
+// keys
+const CK  = (u,c) => `c_${S}_${u}_${c}`;
+const TK  = (u,t) => `t_${S}_${u}_${t}`;
+const AK  = (u)   => `a_${S}_${u}`;
+const WK  = (u)   => `w_${S}_${u}`;
+
+const getCh   = (u,c) => state.ch[CK(u,c)]   ?? 0;
+const getTD   = (u,t) => state.td[TK(u,t)]   ?? 0;
+const getAnns = (u)   => state.ann[AK(u)]    || [];
+const getWeaks= (u)   => state.weak[WK(u)]   || [];
+
+// ─── THEME (auto — suit les préférences système) ─────────────────────────────
+function applyTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+}
+
+// ─── SEMESTER ───────────────────────────────────────────────────────────────
+function setSem(s) {
+  S = s;
+  document.getElementById('btn1').classList.toggle('active', s === 1);
+  document.getElementById('btn2').classList.toggle('active', s === 2);
+  document.getElementById('semTitle').textContent = `Semestre ${s}`;
+  render();
+}
+
+// ─── RENDER ─────────────────────────────────────────────────────────────────
+function render() { renderUEs(); renderStats(); renderRings(); renderAlerts(); }
+
+function renderUEs() {
+  const list = document.getElementById('ueList');
+  list.innerHTML = '';
+  DATA[S].forEach((ue, ui) => {
+    const total = ue.chapters.length;
+    const scoreCh = ue.chapters.reduce((s,_,ci) => s + getCh(ui,ci)/3, 0);
+    const doneTD = ue.chapters.reduce((s,_,ci) => s + getTD(ui,ci)/3, 0);
+    const pct   = total > 0 ? Math.round((scoreCh + doneTD) / (total * 2) * 100) : 0;
+    const open  = !!state.exp[`${S}_${ui}`];
+    const anns  = getAnns(ui);
+    const weaks = getWeaks(ui);
+
+    // chapters rows (with linked TD)
+    const chRows = ue.chapters.map((ch, ci) => {
+      const stCh = getCh(ui, ci);
+      const stTD = getTD(ui, ci);
+      const note = (state.notes[`n_${S}_${ui}_${ci}`] || '').replace(/"/g, '&quot;');
+      return `<div class="item-row" style="grid-template-columns:1fr 130px 130px 80px">
+        <div class="item-name">${ch}</div>
+        <button class="sbadge s${stCh}" data-ui="${ui}" data-ci="${ci}" data-type="ch">${SI[stCh]} ${SLC[stCh]}</button>
+        <button class="sbadge s${stTD}" data-ui="${ui}" data-t="${ci}" data-type="td">${SI[stTD]} TD ${SL[stTD]}</button>
+        <input class="note-input" type="text" placeholder="Notes…" value="${note}"
+          data-nk="n_${S}_${ui}_${ci}">
+      </div>`;
+    }).join('');
+
+    const tdRows = '';
+
+    // annales rows
+    const annRows = anns.map((a, ai) => `
+      <div class="sub-row row4">
+        <span style="color:var(--text-2);font-weight:500">${a.year}</span>
+        <button class="sbadge s${a.status||0}" style="font-size:10px;padding:2px 7px"
+          data-ui="${ui}" data-ai="${ai}" data-type="ann">${SI[a.status||0]} ${SL[a.status||0]}</button>
+        <input class="score-input" type="text" placeholder="—/20" value="${a.score||''}"
+          data-ak="${AK(ui)}" data-ai="${ai}">
+        <button class="del-btn" data-ui="${ui}" data-ai="${ai}" data-type="delann">×</button>
+      </div>`).join('');
+
+    // weak rows
+    const weakRows = weaks.map((w, wi) => `
+      <div class="sub-row row3">
+        <span><span class="prio-dot" style="background:${PC[w.priority||'high']}"></span>${w.text}</span>
+        <select data-wk="${WK(ui)}" data-wi="${wi}">
+          <option value="high" ${(w.priority||'high')==='high'?'selected':''}>🔴 Urgent</option>
+          <option value="med"  ${w.priority==='med'?'selected':''}>🟡 Moyen</option>
+          <option value="low"  ${w.priority==='low'?'selected':''}>🟢 OK</option>
+        </select>
+        <button class="del-btn" data-ui="${ui}" data-wi="${wi}" data-type="delweak">×</button>
+      </div>`).join('');
+
+    const card = document.createElement('div');
+    card.className = 'ue-card';
+    card.id = `ueCard_${ui}`;
+    card.innerHTML = `
+      <div class="ue-hdr" data-ui="${ui}">
+        <div class="ue-dot" style="background:${ue.color}"></div>
+        <div class="ue-info">
+          <div class="ue-name">${ue.name}</div>
+          <div class="ue-meta" id="meta_${ui}">${metaText(ui)}</div>
+        </div>
+        <div class="ue-bar-wrap">
+          <div class="ue-bar"><div class="ue-bar-fill" id="bar_${ui}" style="width:${pct}%;background:${ue.color}"></div></div>
+          <div class="ue-pct" id="pct_${ui}">${pct}%</div>
+        </div>
+        <div class="ue-chev ${open?'open':''}" id="chev_${ui}">▾</div>
+      </div>
+      <div class="ue-detail ${open?'open':''}" id="detail_${ui}">
+        <div class="dsec">Cours & TD</div>
+        <div class="tbl-hdr" style="grid-template-columns:1fr 130px 130px 80px"><span>Chapitre</span><span>Cours</span><span>TD associé</span><span>Notes</span></div>
+        ${chRows}
+        ${ue.tds > 0 ? `` : ''}
+        <div class="sub-section">
+          <div class="dsec">Annales</div>
+          <div class="sub-inner">
+            <div class="sub-hdr row4"><span>Année</span><span>Statut</span><span>Score</span><span></span></div>
+            <div id="annList_${ui}">${annRows}</div>
+            <button class="add-btn" data-ui="${ui}" data-type="addann">+ Ajouter une annale</button>
+          </div>
+        </div>
+        <div class="sub-section">
+          <div class="dsec">Points faibles</div>
+          <div class="sub-inner">
+            <div class="sub-hdr row3"><span>Notion / Concept</span><span>Priorité</span><span></span></div>
+            <div id="weakList_${ui}">${weakRows}</div>
+            <button class="add-btn" data-ui="${ui}" data-type="addweak">+ Ajouter un point faible</button>
+          </div>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+// ─── EVENT DELEGATION ────────────────────────────────────────────────────────
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-type]');
+  if (!btn) {
+    // toggle expand via ue-hdr
+    const hdr = e.target.closest('.ue-hdr');
+    if (hdr) { const ui = +hdr.dataset.ui; toggleExp(ui); }
+    return;
+  }
+  const ui = btn.dataset.ui !== undefined ? +btn.dataset.ui : null;
+  const type = btn.dataset.type;
+
+  if (type === 'ch') {
+    const ci = +btn.dataset.ci;
+    const next = (getCh(ui, ci) + 1) % 4;
+    state.ch[CK(ui, ci)] = next;
+    save();
+    btn.className = `sbadge s${next}`;
+    btn.innerHTML = `${SI[next]} ${SLC[next]}`;
+    refreshBar(ui); renderStats(); renderRings(); renderAlerts();
+  }
+  else if (type === 'td') {
+    const t = +btn.dataset.t;
+    const next = (getTD(ui, t) + 1) % 4;
+    state.td[TK(ui, t)] = next;
+    save();
+    btn.className = `sbadge s${next}`;
+    btn.innerHTML = `${SI[next]} ${SL[next]}`;
+    refreshBar(ui); renderStats(); renderRings(); renderAlerts();
+  }
+  else if (type === 'ann') {
+    const ai = +btn.dataset.ai;
+    const anns = getAnns(ui);
+    const next = ((anns[ai].status || 0) + 1) % 4;
+    anns[ai].status = next;
+    state.ann[AK(ui)] = anns;
+    save();
+    btn.className = `sbadge s${next}`;
+    btn.style.cssText = 'font-size:10px;padding:2px 7px';
+    btn.innerHTML = `${SI[next]} ${SL[next]}`;
+    renderStats(); renderAlerts();
+  }
+  else if (type === 'delann') {
+    const ai = +btn.dataset.ai;
+    state.ann[AK(ui)].splice(ai, 1);
+    save(); refreshAnnList(ui); refreshMeta(ui); renderStats();
+  }
+  else if (type === 'addann') {
+    const year = prompt('Année de l\'annale ?', new Date().getFullYear() - 1);
+    if (!year) return;
+    if (!state.ann[AK(ui)]) state.ann[AK(ui)] = [];
+    state.ann[AK(ui)].push({ year, status:0, score:'' });
+    save(); refreshAnnList(ui); refreshMeta(ui); renderStats();
+  }
+  else if (type === 'delweak') {
+    const wi = +btn.dataset.wi;
+    state.weak[WK(ui)].splice(wi, 1);
+    save(); refreshWeakList(ui); refreshMeta(ui); renderAlerts();
+  }
+  else if (type === 'addweak') {
+    const text = prompt('Point faible à noter (concept, formule, exercice…) ?');
+    if (!text) return;
+    if (!state.weak[WK(ui)]) state.weak[WK(ui)] = [];
+    state.weak[WK(ui)].push({ text, priority:'high' });
+    save(); refreshWeakList(ui); refreshMeta(ui); renderAlerts();
+  }
+});
+
+document.addEventListener('input', e => {
+  // notes
+  if (e.target.dataset.nk) {
+    state.notes[e.target.dataset.nk] = e.target.value;
+    save();
+  }
+  // score
+  if (e.target.dataset.ak) {
+    const ai = +e.target.dataset.ai;
+    state.ann[e.target.dataset.ak][ai].score = e.target.value;
+    save(); renderStats();
+  }
+});
+
+document.addEventListener('change', e => {
+  // weak priority
+  if (e.target.dataset.wk) {
+    const wi = +e.target.dataset.wi;
+    state.weak[e.target.dataset.wk][wi].priority = e.target.value;
+    save(); refreshWeakList(+e.target.dataset.wk.split('_')[2]); renderAlerts();
+  }
+});
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function metaText(ui) {
+  const ue = DATA[S][ui];
+  const anns = getAnns(ui), weaks = getWeaks(ui);
+  return `${ue.chapters.length} chapitres · ${anns.length} annale${anns.length!==1?'s':''} · ${weaks.length} point${weaks.length!==1?'s':''} faible${weaks.length!==1?'s':''}`;
+}
+
+function toggleExp(ui) {
+  const key = `${S}_${ui}`;
+  state.exp[key] = !state.exp[key];
+  save();
+  document.getElementById(`detail_${ui}`).classList.toggle('open', state.exp[key]);
+  document.getElementById(`chev_${ui}`).classList.toggle('open', state.exp[key]);
+}
+
+function refreshBar(ui) {
+  const ue = DATA[S][ui];
+  const n = ue.chapters.length;
+  if (n === 0) return;
+  // Chaque statut contribue progressivement : 0=0%, 1=33%, 2=66%, 3=100%
+  const scoreCh = ue.chapters.reduce((s,_,ci) => s + getCh(ui,ci)/3, 0);
+  const scoreTD = ue.chapters.reduce((s,_,ci) => s + getTD(ui,ci)/3, 0);
+  const pct = Math.round((scoreCh + scoreTD) / (n * 2) * 100);
+  const b = document.getElementById(`bar_${ui}`);
+  const p = document.getElementById(`pct_${ui}`);
+  if (b) b.style.width = pct + '%';
+  if (p) p.textContent = pct + '%';
+}
+
+function refreshMeta(ui) {
+  const el = document.getElementById(`meta_${ui}`);
+  if (el) el.textContent = metaText(ui);
+}
+
+function refreshAnnList(ui) {
+  const el = document.getElementById(`annList_${ui}`);
+  if (!el) return;
+  el.innerHTML = getAnns(ui).map((a,ai) => `
+    <div class="sub-row row4">
+      <span style="color:var(--text-2);font-weight:500">${a.year}</span>
+      <button class="sbadge s${a.status||0}" style="font-size:10px;padding:2px 7px"
+        data-ui="${ui}" data-ai="${ai}" data-type="ann">${SI[a.status||0]} ${SL[a.status||0]}</button>
+      <input class="score-input" type="text" placeholder="—/20" value="${a.score||''}"
+        data-ak="${AK(ui)}" data-ai="${ai}">
+      <button class="del-btn" data-ui="${ui}" data-ai="${ai}" data-type="delann">×</button>
+    </div>`).join('');
+}
+
+function refreshWeakList(ui) {
+  const el = document.getElementById(`weakList_${ui}`);
+  if (!el) return;
+  el.innerHTML = getWeaks(ui).map((w,wi) => `
+    <div class="sub-row row3">
+      <span><span class="prio-dot" style="background:${PC[w.priority||'high']}"></span>${w.text}</span>
+      <select data-wk="${WK(ui)}" data-wi="${wi}">
+        <option value="high" ${(w.priority||'high')==='high'?'selected':''}>🔴 Urgent</option>
+        <option value="med"  ${w.priority==='med'?'selected':''}>🟡 Moyen</option>
+        <option value="low"  ${w.priority==='low'?'selected':''}>🟢 OK</option>
+      </select>
+      <button class="del-btn" data-ui="${ui}" data-wi="${wi}" data-type="delweak">×</button>
+    </div>`).join('');
+}
+
+// ─── STATS ───────────────────────────────────────────────────────────────────
+function renderStats() {
+  let tCh=0,sCh=0,tTD=0,sTD=0,tAnn=0,dAnn=0;
+  DATA[S].forEach((ue,ui) => {
+    const n = ue.chapters.length;
+    tCh += n;
+    sCh += ue.chapters.reduce((s,_,ci) => s + getCh(ui,ci)/3, 0);
+    tTD += n;
+    sTD += ue.chapters.reduce((s,_,ci) => s + getTD(ui,ci)/3, 0);
+    const anns = getAnns(ui);
+    tAnn += anns.length;
+    dAnn += anns.filter(a => (a.status||0) === 3).length;
+  });
+  // Maîtrisés = score maximal
+  const dCh = Math.round(sCh);
+  const dTD = Math.round(sTD);
+  const g = Math.round((sCh/Math.max(tCh,1)*0.45 + sTD/Math.max(tTD,1)*0.35 + dAnn/Math.max(tAnn,1)*0.2) * 100);
+  const $ = id => document.getElementById(id);
+  $('sCh').textContent  = dCh; $('sChS').textContent  = `sur ${tCh} chapitres`;
+  $('sTD').textContent  = dTD; $('sTDS').textContent  = `sur ${tTD} TD`;
+  $('sAnn').textContent = dAnn; $('sAnnS').textContent = `sur ${tAnn} annales`;
+  $('sGlob').textContent = g + '%';
+  $('bCh').style.width  = (tCh  > 0 ? Math.round(sCh/tCh*100)   : 0) + '%';
+  $('bTD').style.width  = (tTD  > 0 ? Math.round(sTD/tTD*100)   : 0) + '%';
+  $('bAnn').style.width = (tAnn > 0 ? Math.round(dAnn/tAnn*100) : 0) + '%';
+  $('bGlob').style.width = g + '%';
+}
+
+// ─── RINGS ───────────────────────────────────────────────────────────────────
+function renderRings() {
+  const grid = document.getElementById('ringsGrid');
+  grid.innerHTML = '';
+  DATA[S].forEach((ue, ui) => {
+    const n = ue.chapters.length;
+    const scoreCh = ue.chapters.reduce((s,_,ci) => s + getCh(ui,ci)/3, 0);
+    const scoreTD = ue.chapters.reduce((s,_,ci) => s + getTD(ui,ci)/3, 0);
+    const pct = n > 0 ? (scoreCh + scoreTD) / (n * 2) : 0;
+    const r=26, cx=34, cy=34, circ=2*Math.PI*r, dash=pct*circ;
+    const trackColor = getComputedStyle(document.documentElement).getPropertyValue('--ring-track').trim() || '#f0f0f5';
+    const item = document.createElement('div');
+    item.className = 'ring-item';
+    item.innerHTML = `
+      <svg width="68" height="68" viewBox="0 0 68 68">
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${trackColor}" stroke-width="5"/>
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ue.color}" stroke-width="5"
+          stroke-dasharray="${dash} ${circ}" stroke-linecap="round"
+          style="transition:stroke-dasharray 0.5s cubic-bezier(0.4,0,0.2,1)"/>
+        <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
+          fill="${ue.color}" font-family="Inter,sans-serif" font-size="12" font-weight="600"
+          transform="rotate(90,${cx},${cy})">${Math.round(pct*100)}%</text>
+      </svg>
+      <div class="ring-label">${ue.abbr}</div>`;
+    grid.appendChild(item);
+  });
+}
+
+// ─── ALERTS ──────────────────────────────────────────────────────────────────
+function renderAlerts() {
+  const list = document.getElementById('alertList');
+  const alerts = [];
+  DATA[S].forEach((ue, ui) => {
+    ue.chapters.forEach((ch, ci) => {
+      const st = getCh(ui, ci);
+      if (st === 0) alerts.push({ color:'var(--red)',    ue:ue.abbr, text:`${ch} — pas commencé` });
+      else if (st === 1) alerts.push({ color:'var(--orange)', ue:ue.abbr, text:`${ch} — à approfondir` });
+    });
+    for (let t=0; t<ue.chapters.length; t++) {
+      const st = getTD(ui, t);
+      if (st === 0) alerts.push({ color:'var(--red)',    ue:ue.abbr, text:`TD ${t+1} — pas commencé` });
+      else if (st === 1) alerts.push({ color:'var(--orange)', ue:ue.abbr, text:`TD ${t+1} — en cours` });
+    }
+    getWeaks(ui).filter(w => (w.priority||'high') === 'high').forEach(w => {
+      alerts.push({ color:'var(--red)', ue:ue.abbr, text:`⚠ ${w.text}` });
+    });
+  });
+  if (alerts.length === 0) {
+    list.innerHTML = `<div class="alert-item"><div class="alert-dot" style="background:var(--green)"></div>Tout est à jour ✓</div>`;
+    return;
+  }
+  list.innerHTML = alerts.slice(0, 12).map(a => `
+    <div class="alert-item">
+      <div class="alert-dot" style="background:${a.color}"></div>
+      <span class="alert-ue">${a.ue}</span>
+      <span>${a.text}</span>
+    </div>`).join('');
+}
+
+// ─── EXPORT / IMPORT ─────────────────────────────────────────────────────────
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10);
+  a.href     = url;
+  a.download = `physique_${date}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      // validate basic structure
+      if (typeof imported !== 'object' || imported === null) throw new Error();
+      state = { ch:{}, td:{}, ann:{}, weak:{}, exp:{}, notes:{}, ...imported };
+      save();
+      render();
+      showToast('✓ Données importées');
+    } catch {
+      showToast('⚠ Fichier invalide', true);
+    }
+    e.target.value = ''; // reset so same file can be re-imported
+  };
+  reader.readAsText(file);
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+function showToast(msg, err=false) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);font-family:Inter,sans-serif;font-size:13px;font-weight:500;padding:10px 20px;border-radius:20px;opacity:0;transition:all 0.25s;z-index:9999;pointer-events:none;white-space:nowrap';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = err ? 'var(--red)' : 'var(--text)';
+  t.style.color = err ? '#fff' : 'var(--bg)';
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 2500);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+applyTheme(window.matchMedia('(prefers-color-scheme:dark)').matches);
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change', e => {
+  applyTheme(e.matches); renderRings();
+});
+loadFromServer().then(() => render());
+</script>
+</body>
+</html>
