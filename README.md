@@ -1,6 +1,6 @@
 # Academic Dashboard
 
-**Academic Dashboard** is a modern web application designed to help university students organize and monitor their academic progress efficiently. It provides a structured approach to managing courses by chapters, tutorials, and past exams within a clean and intuitive interface.
+**Student Dashboard** is a modern web application designed to help university students organize and monitor their academic progress efficiently. It provides a structured approach to managing courses by chapters, tutorials, and past exams within a clean and intuitive interface.
 
 The application is fully responsive and includes a dark mode to ensure a comfortable user experience across all devices.
 
